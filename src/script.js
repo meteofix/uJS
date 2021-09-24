@@ -1,6 +1,6 @@
 "use strict"
-let movie1, movie2, rating1, rating2;
-const numberOfFilms = prompt('Сколько фильмов?',"");
+let movie, rating;
+const numberOfFilms = +prompt('Сколько фильмов?',"");
 
 const personalMovieDB = {
     count: numberOfFilms,
@@ -10,19 +10,24 @@ const personalMovieDB = {
     privat: false
 };
 
-const question1 = () => {
-    return prompt('Один из последних фильмов?')
-};
-const question2 = () => {
-    return prompt('Оценка?')
-};
+for (let i = 0; i <2; ) {
+    movie = prompt('Один из последних фильмов?');
+    rating = prompt('Оценка?');
+    if (movie===''||rating===''||movie===null||rating===null||movie.length>=50) {
+        continue;
+    }
+    personalMovieDB.movies[movie] = rating;
+    i++;
+}
+if (personalMovieDB.count<10) {
+    alert("Мало фильмов")
+} else if (personalMovieDB.count >= 10 && personalMovieDB.count <= 30) {
+    alert('Классический зритель')
+} else if (personalMovieDB.count > 30) {
+    alert('Киноман')
+} else {
+    alert('Ошибка')
+}
 
-movie1 = question1();
-rating1 = question2();
-movie2 = question1();
-rating2 = question2();
-
-personalMovieDB.movies[movie1] = rating1;
-personalMovieDB.movies[movie2] = rating2;
 
 console.log(personalMovieDB)
