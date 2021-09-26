@@ -62,4 +62,4 @@ const personalMovieDB = {
 //personalMovieDB.writeYourGenres()
 //personalMovieDB.toogleVisibleMydb()
 //personalMovieDB.showMyDB()
-console.log()
+console.log(2&&1&&3)
