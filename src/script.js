@@ -1,5 +1,5 @@
 "use strict"
-
+// === === === personalMovie start === === ===
 const personalMovieDB = {
     count: 0,
     movies: {},
@@ -62,4 +62,30 @@ const personalMovieDB = {
 //personalMovieDB.writeYourGenres()
 //personalMovieDB.toogleVisibleMydb()
 //personalMovieDB.showMyDB()
-console.log(2&&1&&3)
+
+// === === === personalMovie end === === ===
+
+// === === === intervalAnimation start === === ===
+
+const wrapper = document.querySelector('.wrapper');
+const box = document.createElement('div')
+let position = 0;
+wrapper.style = 'position: relative; border: 1px solid red; width: 400px; height: 400px;'
+wrapper.append(box)
+box.style = 'position: absolute; background-color: blue; width: 100px; height: 100px;'
+
+const move = () => {
+    if (position == 300) {
+        clearInterval(moveIntevalId)
+    } else {
+        box.style.top = `${position + 1}px`
+        box.style.left = `${position + 1}px`
+        moveIntevalId = setTimeout(move, 10)
+        position++;
+    }
+}
+let moveIntevalId = setTimeout(move, 10)
+
+// === === === intervalAnimation end === === ===
+
+console.log()

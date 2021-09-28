@@ -4,6 +4,8 @@ window.addEventListener('DOMContentLoaded', () => {
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items')
 
+    // === === === intervalAnimation start === === ===
+
     function hideTabContent() {
         tabsContent.forEach(tabContent => {
             tabContent.classList.add('hide')
@@ -19,8 +21,6 @@ window.addEventListener('DOMContentLoaded', () => {
         tabs[i].classList.add('tabheader__item_active')
     }
 
-    //tabs[1]
-
     tabsParent.addEventListener('click', (event) => {
         const target = event.target
         if (target && target.classList.contains('tabheader__item')) {
@@ -33,6 +33,43 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-    hideTabContent()
-    showTabContent()
+    hideTabContent();
+    showTabContent();
+
+    // === === === intervalAnimation end === === ===
+
+    // === === === timer start === === ===
+
+    const deadline = '2021-10-29T22:30',
+          timer = document.querySelectorAll('.timer__block span')
+
+    function timeConverter (endtime) {
+        const timeArray = []
+        ms = Date.parse(endtime) - Date.now();
+        timeArray[0] = ms;
+        // timeArray[1] = parseInt(((ms) / (1000 * 60 * 60 * 24)));
+        // timeArray[2] = parseInt(((ms) / (1000 * 60 * 60)) % 24);
+        // timeArray[3] = parseInt(((ms) / (1000 * 60)) %60);
+        // timeArray[4] = parseInt(((ms) / (1000)) %60);
+        timeArray[1] = Math.floor(ms / (1000 * 60 * 60 * 24));
+        timeArray[2] = Math.floor((ms / (1000 * 60 * 60)) % 24);
+        timeArray[3] = Math.floor((ms / (1000 * 60)) %60);
+        timeArray[4] = Math.floor((ms / (1000)) %60);
+        return timeArray;
+    }
+    setTimer()
+    const timerTimeoutId = setInterval(setTimer, 1000)
+
+    function setTimer () {
+        const timeArray = timeConverter(deadline)
+        for (let i = 0; i < 4 ; i++) {
+            timer[i].textContent = (timeArray[i+1] > 0 && timeArray[i+1] < 10) ? `0${timeArray[i+1]}` : timeArray[i+1];
+        }
+        if (timeArray[0] <= 2) {
+            clearInterval(timerTimeoutId)
+        }
+    }
+
+
+
 });
