@@ -73,6 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // === === === timer end === === ===
 
     // === === === modal start === === ===
+
     const modal = document.querySelector('.modal'),
         modalCloseButtons = modal.querySelectorAll('[data-close]'),
         modalOpenButtons = document.querySelectorAll('[data-modal]'),
@@ -107,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
             modalClose();
         }
     })
-    const modalTimerId = setTimeout(modalOpen, 5000)
+    //const modalTimerId = setTimeout(modalOpen, 5000)
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -116,4 +117,93 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
     window.addEventListener('scroll', showModalByScroll)
+
+    // === === === modal end === === ===
+
+    // === === === menu class start === === ===
+
+    const menuField = document.querySelector('.menu__field'),
+        menuFieldContainer = document.querySelector('.menu__field .container'),
+        menuItemImg = menuField.querySelectorAll('.menu__item img'),
+        menuItemTitle = menuField.querySelectorAll('.menu__item .menu__item-subtitle'),
+        menuItemDesc = menuField.querySelectorAll('.menu__item .menu__item-descr'),
+        menuItemPriceTotal = menuField.querySelectorAll('.menu__item .menu__item-price .menu__item-total span')
+
+    class MenuCard {
+        constructor(src, alt, title, desc, price, parentSelector, ...classes) {
+             this.src = src;
+             this.alt = alt;
+             this.title = title;
+             this.desc = desc;
+             this.price = price;
+             this.classes = classes;
+             this.parent = document.querySelector(parentSelector)
+             this.transfer = 27;
+             this.changeToUah();
+        }
+        add(number) {
+            menuItemImg[number].src = this.src;
+            menuItemImg[number].alt = this.alt;
+            menuItemTitle[number].textContent = this.title;
+            menuItemDesc[number].textContent = this.desc;
+            menuItemPriceTotal[number].textContent = this.price;
+        }
+        changeToUah() {
+            this.price = this.price * this.transfer;
+        }
+        render() {
+            const element = document.createElement('div');
+            if (this.classes.length === 0) {
+                this.element = 'menu__item';
+                element.classList.add(this.element)
+            } else {
+                this.classes.forEach(item => element.classList.add(item));
+            }
+            element.innerHTML = `
+                <img src="${this.src}" alt="${this.alt}">
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.desc}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                </div>
+            `;
+            this.parent.append(element)
+        }
+
+    }
+    const fitness = new MenuCard(
+        'img/tabs/vegy.jpg',
+        'vegy',
+        'Меню "Фитнес"',
+        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+        '9' ,
+        '.menu__field .container',
+    );
+    const premium = new MenuCard(
+        'img/tabs/elite.jpg',
+        'elite',
+        'Меню “Премиум”',
+        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+        '20' ,
+        '.menu__field .container',
+        'menu__item',
+        'custom'
+    );
+    const post = new MenuCard(
+        'img/tabs/post.jpg',
+        'post',
+        'Меню "Постное"',
+        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ',
+        '16' ,
+        '.menu__field .container',
+        'menu__item',
+        'custom'
+    );
+
+    fitness.render()
+    premium.render()
+    post.render()
+    console.log(menuItemPriceTotal)
 });
