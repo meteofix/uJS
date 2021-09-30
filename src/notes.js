@@ -65,14 +65,41 @@ const object = {
     toDelete: '',
     makeTest: function () { }                   // создание метода в объекте
 }
+const add = {
+    d: 17,
+    e: 20
+}
+
 for (let key in object) { }                     // перебор опций объекта
 delete object.toDelete;                         // позволяет удалить элемент из объекта
 Object.keys(object)                             // создает массив из ключей объекта
-Object.assign(object, obj)                      // объединить два объекта
+Object.assign(object, obj)                      // объединить два объекта (объект в который нуно поместить, объект который нужно добавить
 
 // !!!!!!!!!!
 // Рассмотреть передачу по ссылке и по значению, копии объектов
 // !!!!!!!!!!
+// 1) Поверхностная копия через цикл
+
+function copy1(mainObj) {
+    let objCopy = {};
+    for (let key in mainObj) {
+        objCopy[key] = mainObj[key]
+    }
+    return objCopy;
+}
+
+// 2) Поверхностная копия через Object.assign
+
+Object.assign({}, add);                                     // клонируем add в пустой объект
+
+// 3) Поверхностная копия массива
+
+// array.slice()                                                  // создать поверхностную копию массива
+
+// 4) Новейший способ поверхностной копии - spread
+
+// const newArray = {...array}
+const newObject = {...object}                              // можно также развоорачивать массивы в объект. аоборот - нельзя
 
 
 // === === ===  Методы массивов  === === === === === === === === === === === === === === === === === ===
@@ -158,6 +185,8 @@ const listener = (event) => {
 }
 btn.addEventListener('click', listener)                 // добавляет слушатель события на элемент в порядке очереди
 btn.removeEventListener('click', listener)              // удаляет слушатель события с элемента
+//input.addEventListener('change', listener)                 // событие change происходит, когда input теряе фокус
+
 
 // == == == События на мобильных устройствах == == == == == == ==
 
@@ -345,5 +374,81 @@ function calcOrDouble(number, basis = 3) {
 
     console.log(number * basis)
 }
-calcOrDouble(2, 3)
-calcOrDouble(2)
+//calcOrDouble(2, 3)
+
+
+// === === ===  JSON  === === === === === === === === === === === === === === === === === === === === ===
+
+
+const person = {
+    name: "Alex",
+    tel: "+380677777777",
+    parents: {
+        mom: 'Olga',
+        dad: 'Mike'
+    }
+}
+const strng = JSON.stringify(person)                                    // Переводит в подходящий для передачи формат json
+const clone = JSON.parse(strng)                                         // Переводит из json назад
+                                                                        // две операции выше осуществили глубокое копирование
+
+// === === ===  AJAX (asynchronous Javascript and XML) и общение с сервером === === === === === === === === ===
+
+// 1) XML HTTP Request - уже не совсем актуален
+
+const inputUah = document.querySelector('#uah'),
+    inputUsd = document.querySelector('#usd')
+
+inputUah.addEventListener('input', (e) => {
+    const request = new XMLHttpRequest();
+
+    //// далее - методы XMLHttpRequest
+    request.open(                                               // метод open(method, url, async, login, password) собирает настройки запроса
+        'GET',
+        'notes.json'                                        // путь нужно указывать относительно html файла
+    );
+    request.setRequestHeader(                                   // указать серверу, что в запросе
+        'Content-type',                                   // имя - тип контента
+        'application/json; charset=utf-8'                 // тип контента и кодировка
+    )
+    request.send()                                              // отправляем запрост (для некоторых методов, например пост, принимает аргумент body)
+
+    //// далее - свойства XMLHttpRequest
+    request.status                                              // статус запроса (например 404)
+    request.statusText                                          // текстовое описание статус запроса (например NOT FOUND)
+    request.response                                            // ответ от сервера
+    request.readyState                                          // текущее состояние объекта. https://developer.mozilla.org/ru/docs/Web/API/XMLHttpRequest/readyState
+
+    //// далее - события XMLHttpRequest
+    // интуитивно понятные: loadstart, progress, abort, timeout, loadend
+    
+    // request.addEventListener('readystatechange', () => {        // событие, следящее за readyState
+    //     if (request.readyState === 4 && request.status === 200) {
+    //         const data = JSON.parse(request.response);
+    //         inputUsd.value = '$' + (+e.target.value / data.current.usd).toFixed(2);   // округлили до двух знаков
+    //     } else {
+    //         inputUsd.value = 'Error'
+    //     }
+    // })
+
+    request.addEventListener('load', () => {                    // событие, когда запрос завершен
+        if (request.status === 200) {
+            const data = JSON.parse(request.response);
+            inputUsd.value = '$' + (+e.target.value / data.current.usd).toFixed(2);   // округлили до двух знаков
+        } else {
+            inputUsd.value = 'Error'
+        }
+    })
+
+    // request.setRequestHeader('Content-type', 'multipart/form-data');      // при использовании FormData и XMLHttpRequest хедер не писать!
+    const formData = new FormData('form');                              // позволяет собрать все данные с аттрибутом name из формы
+
+})
+
+
+
+// 2) XML HTTP Request - уже не совсем актуален
+
+// Shift+F5 - сброс кеша
+
+console.log()

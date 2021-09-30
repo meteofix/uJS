@@ -1,8 +1,7 @@
 #hi {
-    margin-top: 50px;
     margin-left: 100px;
     padding: 10px 25px;
-    height: 100px;
+    height: 30px;
     width: 300px;
     overflow: auto;
 }
