@@ -392,7 +392,7 @@ const strng = JSON.stringify(person)                                    // Пе�
 const clone = JSON.parse(strng)                                         // Переводит из json назад
                                                                         // две операции выше осуществили глубокое копирование
 
-// === === ===  AJAX (asynchronous Javascript and XML) и общение с сервером === === === === === === === === ===
+// === === ===  AJAX (asynchronous Javascript and XML) и общение с сервером. Promises === === === === === === === === ===
 
 // 1) XML HTTP Request - уже не совсем актуален
 
@@ -441,13 +441,59 @@ inputUah.addEventListener('input', (e) => {
     })
 
     // request.setRequestHeader('Content-type', 'multipart/form-data');      // при использовании FormData и XMLHttpRequest хедер не писать!
-    const formData = new FormData('form');                              // позволяет собрать все данные с аттрибутом name из формы
+    const formData = new FormData('form');                                   // позволяет собрать все данные с аттрибутом name из формы
 
 })
 
+// 2) Promises
+
+//console.log('Zapros')
+const req = new Promise(function (resolve, reject){                  // создаем промис
+    setTimeout(() => {                                                // асинхронная функция
+        //console.log('Podgotovka')
+        const product = {
+            name: 'TV',
+            price: '2000'
+        }
+        resolve(product);                                                    // в случае успеха
+        reject();                                                            // в случае неудачи
+    }, 2000)
+})
+
+req.then((product) => {                                                      // начинаем вызов цепочки промисов
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            product.status = 'order';
+            resolve(product)
+        }, 2000)
+    })
+}).then(data => {                                                            // второй промис
+    data.modify = true;
+    return data;
+}).then((data) => {
+    //console.log(data);
+}).catch(() => {                                                             // обработка ошибки
+    //console.error('ERROR')
+}).finally(() => {                                                   // после всего,в любом случае
+    //console.log('Finally')
+})
+
+//Promise.all([promise1(), promise2()]).then(() => {})                    // ждет выполнения всех промисов, и выполняется дальше
+//Promise.race([promise1(), promise2()]).then(() => {})                    // ждет выполнения первого промиса, и выполняется дальше
+
+// 3) Fetch API (application programming interface)
+
+fetch('https://jsonplaceholder.typicode.com/posts',{            // объект с настройками запроса
+    method: "POST",
+    body: JSON.stringify({name: 'alex'}),
+    headers:{
+        'Content-type': 'application/json'
+    }
+})
+    .then(response => response.json())                                      // метод fetch, аналог JSON.parse. Возвращает промис
+    .then(json => console.log(json))
 
 
-// 2) XML HTTP Request - уже не совсем актуален
 
 // Shift+F5 - сброс кеша
 
