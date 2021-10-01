@@ -301,10 +301,11 @@ window.addEventListener('DOMContentLoaded', () => {
             prevModalDialog.classList.remove('hide');
             modalClose();
         }, 4000)
-
-
     }
-
+    
+    fetch('db.json')
+        .then(data => data.json())
+        .then(res => console.log(res))
 
 
     // === === === ajax post XMLHttpRequest class end === === ===
