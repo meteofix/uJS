@@ -334,9 +334,28 @@ window.addEventListener('DOMContentLoaded', () => {
         sliderTotal = slider.querySelector('#total'),
         sliderWrapper = slider.querySelector('.offer__slider-wrapper'),
         sliderField = slider.querySelector('.offer__slider-inner'),
-        sliderWidth = window.getComputedStyle(sliderWrapper).width;
+        sliderWidth = window.getComputedStyle(sliderWrapper).width,
+        sliderDotesWrapper = document.createElement('ol');
     let slidesCounter = 0;
     let slidesOffset = 0;
+    let dotes = [];
+
+    // == == slider 2 dotes == ==
+
+    sliderDotesWrapper.classList.add('carousel-indicators')
+    slider.append(sliderDotesWrapper)
+    for (let i = 0; i < slides.length; i++) {
+        dotes[i] = document.createElement('li')
+        dotes[i].classList.add('dot')
+        sliderDotesWrapper.append(dotes[i])
+        dotes[i].addEventListener('click', () => slideDot(i))
+    }
+    dotes[slidesCounter].style.opacity = 1;
+
+    function slideDot(index) {
+       slidesOffset = index * +sliderWidth.slice(0, sliderWidth.length - 2);
+       slideChangeCurrent()
+    }
 
     // == == slider 2 == ==
 
@@ -346,25 +365,26 @@ window.addEventListener('DOMContentLoaded', () => {
     slideChangeCurrent()
     sliderTotal.textContent = (slides.length < 10) ? `0${slides.length}`: slides.length;
 
-
     function slideNext() {
         (slidesOffset == +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1))
             ? slidesOffset = 0
             : slidesOffset += +sliderWidth.slice(0, sliderWidth.length - 2);
-        sliderField.style.transform = `translateX(-${slidesOffset}px)`
         slideChangeCurrent()
     }
     function slidePrev() {
         (slidesOffset == 0)
             ? slidesOffset = +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1)
             : slidesOffset -= +sliderWidth.slice(0, sliderWidth.length - 2);
-        sliderField.style.transform = `translateX(-${slidesOffset}px)`
         slideChangeCurrent()
     }
     function slideChangeCurrent() {
-        sliderCurrent.textContent = (slidesOffset/+sliderWidth.slice(0, sliderWidth.length - 2) + 1 < 10)
-            ? `0${slidesOffset/+sliderWidth.slice(0, sliderWidth.length - 2) + 1}`
-            : `${slidesOffset/+sliderWidth.slice(0, sliderWidth.length - 2) + 1}`;
+        dotes[slidesCounter].style.opacity = '';
+        slidesCounter = slidesOffset/+sliderWidth.slice(0, sliderWidth.length - 2)
+        dotes[slidesCounter].style.opacity = 1;
+
+        sliderField.style.transform = `translateX(-${slidesOffset}px)`
+        sliderCurrent.textContent = (slidesCounter + 1 < 10) ? `0${slidesCounter + 1}`: `${slidesCounter + 1}`;
+
     }
     sliderNext.addEventListener('click', () => {
         slideNext();
@@ -373,8 +393,6 @@ window.addEventListener('DOMContentLoaded', () => {
     sliderPrev.addEventListener('click', () => {
         slidePrev();
     });
-
-
 
     // == == slider 1 == ==
 

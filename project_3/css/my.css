@@ -16,7 +16,9 @@
         opacity: 1;
     }
 }
-
+.offer__slider {
+    position: relative;
+}
 .offer__slider-inner {
     display: flex;
     transition: 0.5s all;
