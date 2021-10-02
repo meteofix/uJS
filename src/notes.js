@@ -572,28 +572,83 @@ ans.match(reg)                                      // строковый мет
 '12-34-56'.replace(/-/g, ':')  // строковый метод replace, заменяет вхождения
 reg.test(ans)                                       // boolean метод регулярки, проверяет, есть ли соответствия
 
-console.log(str1.match(reg))
+
+// === === ===  Свойства-акцессоры === === === === === === === === ===
+
+// Свойства-акцессоры - целый комплекс, позволяют присваивать и получать значения, но во внешнем коде выглядят как обычные свойства.
+// Делятся на геттеры и сеттеры
+
+const persone = {
+    name: 'Alex',
+    age: 25,
+    get userAge() {                                 // задаем геттер, при обращении к которому как к свойству будет возвращен return
+        return this.age;
+    },
+    set userAge(num) {                              // задаем сеттер с тем же именем? ему можно передать аргумент при вызове
+        this.age = num;
+    }
+}
+persone.userAge;
+persone.userAge = 30;
 
 
+// === === ===  Инкапсуляция === === === === === === === === ===
 
+function User1(name, age) {
+    this.name =name;
+    this.age = age;                                             // к этому свойству есть доступ снаружи
+    let userAge = age;                                          // к этой переменной нет доступа снаружи
+    this.say = function () {
+        console.log(`Name: ${this.name}, age: ${this.age}, user age: ${userAge}`)
+    }
+    this.getAge = function () {
+        return userAge;
+    }
+    this.setAge = function (age) {
+        if (typeof age === 'number' && age > 0 && age < 110) {
+            userAge = age;
+        } else {
+            console.log('Error')
+        }
+    }
+}
+const alex = new User1('Alex', 27);
+alex.age = 30;
+alex.setAge(31)
+// alex.say();
 
+class User2 {
+    constructor(name, age) {
+        this.name =name;
+        this._age = age;                        // к свойству, начиннающемуся с _, нельзя обращаться извне. не синтаксис, соглашение
+    }
+    #surname = 'Petrychenko';                    // запись свойства вне конструктора. # делает его приватным
+    say = () => {
+        console.log(`Name: ${this.name}, surname: ${this.#surname}, age: ${this._age}`)
+    }
 
+    get surname() {
+        return this.#surname;
+    }
+    set surname(surname) {
+        this.#surname = surname;
+    }
+    get age() {                                 // геттер
+        return this._age;
+    }
+    set age(age) {                              // сеттер
+        if (typeof age === 'number' && age > 0 && age < 110) {
+            this._age = age;
+        } else {
+            console.log('Error')
+        }
+    }
+}
+const bob = new User2('Bob', 27);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(bob.surname)
+console.log(bob.surname = 'Rrrr')
+bob.say()
 
 
 

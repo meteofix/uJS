@@ -437,9 +437,27 @@ window.addEventListener('DOMContentLoaded', () => {
         calcGender = calc.querySelector('#gender '),
         calcChooseBig = calc.querySelector('.calculating__choose_big '),
         calcChooseMedium = calc.querySelector('.calculating__choose_medium')
-    let calcSex = 'female',
-        calcHeight, calcWeight, calcAge,
-        calcRatio = '1.375';
+    let calcSex, calcHeight, calcWeight, calcAge,
+        calcRatio = localStorage.getItem('calcRatio') || '1.375';
+
+    if (!localStorage.getItem('calcSex')) localStorage.setItem('calcSex', 'female');
+    calcSex = localStorage.getItem('calcSex')
+    if (!localStorage.getItem('calcRatio')) localStorage.setItem('calcRatio', '1.375');
+    calcRatio = localStorage.getItem('calcRatio')
+
+    function calcInitActive(selector, local) {
+        selector.querySelectorAll('div').forEach(item => {
+            if (item.id === localStorage.getItem(local)) {
+                calcChangeActive(selector, item);
+            }
+            if (item.getAttribute('data-ratio') === localStorage.getItem(local)) {
+                calcChangeActive(selector, item)
+            }
+        })
+    }
+    calcInitActive(calcGender, 'calcSex');
+    calcInitActive(calcChooseBig, 'calcRatio')
+
 
     function calcTotal() {
         if (!calcSex || !calcHeight || !calcWeight || !calcAge || !calcRatio) {
@@ -458,16 +476,18 @@ window.addEventListener('DOMContentLoaded', () => {
             case calcGender:
                 calcSex = item.id;
                 calcChangeActive(selector, item);
+                localStorage.setItem('calcSex', calcSex)
                 break;
             case calcChooseBig: 
                 calcRatio = item.getAttribute('data-ratio');
                 calcChangeActive(selector, item);
+                localStorage.setItem('calcRatio', calcRatio)
                 break;
             case calcChooseMedium:
                 switch (item.id) {
-                    case 'height': calcHeight = item.value; break;
-                    case 'weight': calcWeight = item.value; break;
-                    case 'age': calcAge = item.value; break;
+                    case 'height': calcHeight = +item.value; break;
+                    case 'weight': calcWeight = +item.value; break;
+                    case 'age': calcAge = +item.value; break;
                 }
         }
         calcTotal()
@@ -487,9 +507,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     })
     calcChooseMedium.addEventListener('input', (e) => {
-        if (e.target.classList.contains('calculating__choose-item')) calcGetInfo(calcChooseMedium, e.target);
+        if (/\D/ig.test(e.target.value)) {
+            e.target.style.boxShadow = '0 4px 15px rgba(255, 0, 0, 0.6)'
+        } else {
+            if (e.target.classList.contains('calculating__choose-item')) calcGetInfo(calcChooseMedium, e.target);
+            e.target.style.boxShadow = '0 4px 15px rgba(0, 255, 0, 0.6)'
+        }
     })
-
+//box-shadow: 0 4px 15px rgb(255 0 0 / 70%)
     // === === === calculator end === === ===
 
 });
