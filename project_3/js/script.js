@@ -353,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => {
     dotes[slidesCounter].style.opacity = 1;
 
     function slideDot(index) {
-       slidesOffset = index * +sliderWidth.slice(0, sliderWidth.length - 2);
+       slidesOffset = index * numbersFromString(sliderWidth);
        slideChangeCurrent()
     }
 
@@ -366,20 +366,20 @@ window.addEventListener('DOMContentLoaded', () => {
     sliderTotal.textContent = (slides.length < 10) ? `0${slides.length}`: slides.length;
 
     function slideNext() {
-        (slidesOffset == +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1))
+        (slidesOffset == numbersFromString(sliderWidth) * (slides.length - 1))
             ? slidesOffset = 0
-            : slidesOffset += +sliderWidth.slice(0, sliderWidth.length - 2);
+            : slidesOffset += numbersFromString(sliderWidth);
         slideChangeCurrent()
     }
     function slidePrev() {
         (slidesOffset == 0)
-            ? slidesOffset = +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1)
-            : slidesOffset -= +sliderWidth.slice(0, sliderWidth.length - 2);
+            ? slidesOffset = numbersFromString(sliderWidth) * (slides.length - 1)
+            : slidesOffset -= numbersFromString(sliderWidth);
         slideChangeCurrent()
     }
     function slideChangeCurrent() {
         dotes[slidesCounter].style.opacity = '';
-        slidesCounter = slidesOffset/+sliderWidth.slice(0, sliderWidth.length - 2)
+        slidesCounter = slidesOffset/numbersFromString(sliderWidth)
         dotes[slidesCounter].style.opacity = 1;
 
         sliderField.style.transform = `translateX(-${slidesOffset}px)`
@@ -424,6 +424,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // sliderPrev.addEventListener('click', slidePrev);
     // sliderTotal.textContent = (slides.length < 10) ? `0${slides.length}`: `${slides.length}`;
 
+    function numbersFromString(string) {
+        return +string.replace(/\D/g, '');
+    }
 
 
 

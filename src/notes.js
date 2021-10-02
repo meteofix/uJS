@@ -528,8 +528,8 @@ const fetchRes = fetch('https://jsonplaceholder.typicode.com/posts',{           
         'Content-type': 'application/json'
     }
 }).then(response => {
-        console.log(response.ok)                                        // boolean свойство fetch
-        console.log(response.status)                                    // свойство fetch, возвращающее статус, например 200, 404...
+        //console.log(response.ok)                                        // boolean свойство fetch
+        //console.log(response.status)                                    // свойство fetch, возвращающее статус, например 200, 404...
         return response.json()                                          // метод fetch, аналог JSON.parse. Возвращает промис
     })
     .then(json => {})
@@ -539,6 +539,63 @@ const fetchRes = fetch('https://jsonplaceholder.typicode.com/posts',{           
 // # npm install axios
 // <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 // Документация: https://github.com/axios/axios
+
+
+// === === ===  localStorage === === === === === === === === ===
+
+localStorage.setItem('keyName', 5)
+localStorage.getItem('keyName')
+localStorage.removeItem('keyName')
+localStorage.clear()
+
+
+// === === ===  Регулярные выражения === === === === === === === === ===
+
+// Любое регулярное выражение состоит из двух частей - паттерна и флагов
+// new RegExp('pattern', 'flags')                  // классический синтаксис, которым никто не ползуется
+// /patten/flags                                   // используемый способ
+// Флаги:   i - поиск вне зависимости от регистра
+//          g - поиск нескольких вхождений
+//          m - многострочный режим
+// Спецсимволы:     \. - обратный слеш экранирует символы
+//                  . - любой символ
+// Классы           \d - цифры,   \D - не цифры
+//                  \w - символы,   \W - не символы
+//                  \s - пробелы, \S - не пробелы
+
+const ans = '200px';
+const str1 = 'My name is R2D2'
+const reg = /\D\S/ig;
+
+ans.search(reg);                                    // строковый метод search, не использует флаг g
+ans.match(reg)                                      // строковый метод match, использует флаг g
+'12-34-56'.replace(/-/g, ':')  // строковый метод replace, заменяет вхождения
+reg.test(ans)                                       // boolean метод регулярки, проверяет, есть ли соответствия
+
+console.log(str1.match(reg))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
