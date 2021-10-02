@@ -428,8 +428,68 @@ window.addEventListener('DOMContentLoaded', () => {
         return +string.replace(/\D/g, '');
     }
 
-
-
     // === === === slider end === === ===
+
+    // === === === calculator start === === ===
+
+    const calc = document.querySelector('.calculating'),
+        calcResult = calc.querySelector('.calculating__result span'),
+        calcGender = calc.querySelector('#gender '),
+        calcChooseBig = calc.querySelector('.calculating__choose_big '),
+        calcChooseMedium = calc.querySelector('.calculating__choose_medium')
+    let calcSex = 'female',
+        calcHeight, calcWeight, calcAge,
+        calcRatio = '1.375';
+
+    function calcTotal() {
+        if (!calcSex || !calcHeight || !calcWeight || !calcAge || !calcRatio) {
+            calcResult.textContent = '____'
+            return;
+        }
+        if (calcSex === 'female') {
+            calcResult.textContent = Math.round((447.6 + (9.2 * calcWeight) + (3.1 * calcHeight) - (4.3 * calcAge)) * calcRatio);
+        } else {
+            calcResult.textContent = Math.round((88.36 + (13.4 * calcWeight) + (4.8 * calcHeight) - (5.7 * calcAge)) * calcRatio);
+        }
+    }
+    calcTotal();
+    function calcGetInfo(selector, item) {
+        switch (selector) {
+            case calcGender:
+                calcSex = item.id;
+                calcChangeActive(selector, item);
+                break;
+            case calcChooseBig: 
+                calcRatio = item.getAttribute('data-ratio');
+                calcChangeActive(selector, item);
+                break;
+            case calcChooseMedium:
+                switch (item.id) {
+                    case 'height': calcHeight = item.value; break;
+                    case 'weight': calcWeight = item.value; break;
+                    case 'age': calcAge = item.value; break;
+                }
+        }
+        calcTotal()
+    }
+    function calcChangeActive(selector, item) {
+        const elements = document.querySelectorAll(`.${selector.classList[1]} .calculating__choose-item`)
+        elements.forEach(item => item.classList.remove('calculating__choose-item_active'))
+        item.classList.add('calculating__choose-item_active')
+    }
+    
+    calcGender.addEventListener('click', (e) => {
+        if (e.target.classList.contains('calculating__choose-item')) calcGetInfo(calcGender, e.target);
+
+    })
+    calcChooseBig.addEventListener('click', (e) => {
+        if (e.target.classList.contains('calculating__choose-item')) calcGetInfo(calcChooseBig, e.target);
+
+    })
+    calcChooseMedium.addEventListener('input', (e) => {
+        if (e.target.classList.contains('calculating__choose-item')) calcGetInfo(calcChooseMedium, e.target);
+    })
+
+    // === === === calculator end === === ===
 
 });
