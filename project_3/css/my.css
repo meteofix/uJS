@@ -16,3 +16,11 @@
         opacity: 1;
     }
 }
+
+.offer__slider-inner {
+    display: flex;
+    transition: 0.5s all;
+}
+.offer__slider-wrapper {
+    overflow: hidden;
+}

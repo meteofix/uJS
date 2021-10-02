@@ -75,6 +75,7 @@ delete object.toDelete;                         // позволяет удали
 Object.keys(object)                             // создает массив из ключей объекта
 Object.assign(object, obj)                      // объединить два объекта (объект в который нуно поместить, объект который нужно добавить
 Object.entries(object)                          // превращает объект в массив массивов
+// const json = JSON.stringify(Object.fromEntries(formData.entries()))      // formData ==> json
 
 // !!!!!!!!!!
 // Рассмотреть передачу по ссылке и по значению, копии объектов
@@ -146,8 +147,8 @@ const resultAnswers = arrayAnswers.map(answer => answer.toLowerCase());
 
 // every/some (boolean)                             // проверяет на соответсвие условию каждый/хотя бы один элемент
 const arraySome = [4, 'qwq', 'sdfsh'];
-console.log(arraySome.some(item => typeof(item) === 'number'))
-console.log(arraySome.every(item => typeof(item) === 'number'))
+//console.log(arraySome.some(item => typeof(item) === 'number'))
+//console.log(arraySome.every(item => typeof(item) === 'number'))
     
 // reduce()                                           // собирает элементы массива в одно единое целое
 const resultReduce = array.reduce((sum, current) => sum + current, 3) // последний аргумент - начальное значение
@@ -164,8 +165,8 @@ const arrayNew = Object.entries(obj3)                           // запуск 
     .filter(item => item[1] === 'person')
     .map(item => item[0])
 
+//console.log(arrayNew)
 
-console.log(arrayNew)
 
 // === === ===  Работа со страницей  === === === === === === === === === === === === === === === === === ===
 
@@ -478,6 +479,7 @@ inputUah.addEventListener('input', (e) => {
 
     // request.setRequestHeader('Content-type', 'multipart/form-data');      // при использовании FormData и XMLHttpRequest хедер не писать!
     const formData = new FormData('form');                                   // позволяет собрать все данные с аттрибутом name из формы
+    const json = JSON.stringify(Object.fromEntries(formData.entries()))      // formData ==> json
 
 })
 
@@ -519,17 +521,24 @@ req.then((product) => {                                                      // 
 
 // 3) Fetch API (application programming interface)
 
-fetch('https://jsonplaceholder.typicode.com/posts',{            // объект с настройками запроса
+const fetchRes = fetch('https://jsonplaceholder.typicode.com/posts',{            // объект с настройками запроса
     method: "POST",
     body: JSON.stringify({name: 'alex'}),
     headers:{
         'Content-type': 'application/json'
     }
-})
-    .then(response => response.json())                                      // метод fetch, аналог JSON.parse. Возвращает промис
+}).then(response => {
+        console.log(response.ok)                                        // boolean свойство fetch
+        console.log(response.status)                                    // свойство fetch, возвращающее статус, например 200, 404...
+        return response.json()                                          // метод fetch, аналог JSON.parse. Возвращает промис
+    })
     .then(json => {})
 
+// 3) axios
 
+// # npm install axios
+// <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+// Документация: https://github.com/axios/axios
 
 
 
@@ -549,7 +558,7 @@ fetch('https://jsonplaceholder.typicode.com/posts',{            // объект 
 
 // # npm i json-server --save-dev
 
-// # json-server --watch db.json
+// # json-server project_3/db.json
 
 
 // Shift+F5 - сброс кеша
