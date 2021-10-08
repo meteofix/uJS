@@ -88,4 +88,5 @@ let moveIntevalId = setTimeout(move, 10)
 
 // === === === intervalAnimation end === === ===
 
-console.log()
+
+

@@ -1,4 +1,56 @@
-'use strict'
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/module.js":
+/*!***********************!*\
+  !*** ./src/module.js ***!
+  \***********************/
+/***/ ((module) => {
+
+function myModule1() {
+    this.hello = function () {
+        console.log('hello')
+    }
+}
+module.exports = myModule1;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!**********************!*\
+  !*** ./src/notes.js ***!
+  \**********************/
+
 // === === ===  Нововведения в ES6  === === === === === === === === === === === === === === === === ===
 
 // == стрелочные функции ==
@@ -690,7 +742,7 @@ const user1 = (function () {
 // }
 // module.exports = myModule1;
 
-const myModule1 = require('./module');          // импортируем
+const myModule1 = __webpack_require__(/*! ./module */ "./src/module.js");          // импортируем
 const myModuleInstance = new myModule1();
 myModuleInstance.hello();
 
@@ -719,19 +771,7 @@ myModuleInstance.hello();
 // };
 
 
-// == == export/import == ==
 
-export let one = 1;                                     // один вариант экспорта именованного синтаксиса
-let two = 2;
-export {two};                                           // второй вариант экспорта именованного синтаксиса
-
-// import {one, two} from './...'                       // для именованного синтаксиса фигурные скобки обязательны
-// import {one as first} from './...'                   // переименовать при импорте
-// import * as data from './...'
-// console.log(data.one)
-
-export default function sayHi() {}                      // экспорт по дефолту. может быть только один
-// import sayHi from './...'                            // импорт по дефолту без фигурных скобок
 
 
 // === === ===  npm project  === === === === === === === === ===
@@ -752,3 +792,8 @@ export default function sayHi() {}                      // экспорт по �
 // Shift+F5 - сброс кеша
 
 console.log()
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=bundle.js.map
