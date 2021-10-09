@@ -1,6 +1,6 @@
-function cards() {
-    // === === === menu class start === === ===
+// import {getResource} from "../services/services";
 
+function cards() {
     const menuField = document.querySelector('.menu__field'),
         menuFieldContainer = document.querySelector('.menu__field .container'),
         menuItemImg = menuField.querySelectorAll('.menu__item img'),
@@ -52,14 +52,7 @@ function cards() {
     //     }
     //
     // }
-    // const getResource = async (url) => {
-    //     const res = await fetch(url);
-    //     if (!res.ok) {
-    //         throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-    //     }
-    //
-    //     return await res.json();
-    // }
+
     // getResource('http://localhost:3000/menu')
     //     .then(data => {
     //         data.forEach(({img, altimg, title, descr, price}) => {
@@ -90,8 +83,6 @@ function cards() {
             document.querySelector('.menu .container').append(element)
         })
     }
-
-    // === === === menu class end === === ===
 }
 
-module.exports = cards;
+export default cards;

@@ -1,24 +1,13 @@
-function post() {
-    // === === === ajax post XMLHttpRequest/fetch start === === ===
+import {modalOpen, modalClose} from "./modal";
+import {postData} from "../services/services";
 
-    const forms = document.querySelectorAll('form')
+function post(formSelector, modalTimerId) {
+    const forms = document.querySelectorAll(formSelector)
     const message = {
         loading: 'img/form/spinner.svg',
         success: 'Thanks!',
         failure: 'Failure...'
     }
-
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: data
-        });
-        return await res.json();
-    }
-
 
     forms.forEach(form => {
         bindPostData(form);
@@ -66,9 +55,6 @@ function post() {
                 form.reset();
             })
 
-
-
-
             // request.addEventListener('load', () => {
             //     if (request.status === 200) {
             //         console.log(request.response)
@@ -83,12 +69,12 @@ function post() {
         })
     }
 
-    // == == красивое оповещение событий == ==
+    // == == оповещение событий == ==
 
     function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
-        modalOpen();
+        modalOpen('.modal', modalTimerId);
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML = `
@@ -102,11 +88,9 @@ function post() {
             thanksModal.remove();
             prevModalDialog.classList.add('show');
             prevModalDialog.classList.remove('hide');
-            modalClose();
+            modalClose('.modal' );
         }, 4000)
     }
-
-    // === === === ajax post XMLHttpRequest/fetch class end === === ===
 }
 
-module.exports = post;
+export default post;

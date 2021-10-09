@@ -1,14 +1,12 @@
-function slider() {
-    // === === === slider start === === ===
-
-    const slider = document.querySelector('.offer__slider'),
-        slides = slider.querySelectorAll('.offer__slide'),
-        sliderNext = slider.querySelector('.offer__slider-next'),
-        sliderPrev = slider.querySelector('.offer__slider-prev'),
-        sliderCurrent = slider.querySelector('#current'),
-        sliderTotal = slider.querySelector('#total'),
-        sliderWrapper = slider.querySelector('.offer__slider-wrapper'),
-        sliderField = slider.querySelector('.offer__slider-inner'),
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
+    const slider = document.querySelector(container),
+        slides = slider.querySelectorAll(slide),
+        sliderNext = slider.querySelector(nextArrow),
+        sliderPrev = slider.querySelector(prevArrow),
+        sliderCurrent = slider.querySelector(currentCounter),
+        sliderTotal = slider.querySelector(totalCounter),
+        sliderWrapper = slider.querySelector(wrapper),
+        sliderField = slider.querySelector(field),
         sliderWidth = window.getComputedStyle(sliderWrapper).width,
         sliderDotesWrapper = document.createElement('ol');
     let slidesCounter = 0;
@@ -102,8 +100,6 @@ function slider() {
     function numbersFromString(string) {
         return +string.replace(/\D/g, '');
     }
-
-    // === === === slider end === === ===
 }
 
-module.exports = slider;
+export default slider;

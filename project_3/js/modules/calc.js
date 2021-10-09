@@ -1,6 +1,4 @@
 function calc() {
-    // === === === calculator start === === ===
-
     const calc = document.querySelector('.calculating'),
         calcResult = calc.querySelector('.calculating__result span'),
         calcGender = calc.querySelector('#gender '),
@@ -26,7 +24,6 @@ function calc() {
     }
     calcInitActive(calcGender, 'calcSex');
     calcInitActive(calcChooseBig, 'calcRatio')
-
 
     function calcTotal() {
         if (!calcSex || !calcHeight || !calcWeight || !calcAge || !calcRatio) {
@@ -83,8 +80,6 @@ function calc() {
             e.target.style.boxShadow = '0 4px 15px rgba(0, 255, 0, 0.6)'
         }
     })
-//box-shadow: 0 4px 15px rgb(255 0 0 / 70%)
-    // === === === calculator end === === ===
 }
 
-module.exports = calc;
+export default calc;

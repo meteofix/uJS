@@ -1,12 +1,9 @@
-function timer() {
-    // === === === timer start === === ===
-
-    const deadline = '2021-10-29T22:30',
-        timer = document.querySelectorAll('.timer__block span')
+function timer(timerSpanSelector, deadline) {
+    const timer = document.querySelectorAll(timerSpanSelector)
 
     function timeConverter (endtime) {
         const timeArray = []
-        ms = Date.parse(endtime) - Date.now();
+        let ms = Date.parse(endtime) - Date.now();
         timeArray[0] = ms;
         // timeArray[1] = parseInt(((ms) / (1000 * 60 * 60 * 24)));
         // timeArray[2] = parseInt(((ms) / (1000 * 60 * 60)) % 24);
@@ -30,8 +27,6 @@ function timer() {
             clearInterval(timerTimeoutId)
         }
     }
-
-    // === === === timer end === === ===
 }
 
-module.exports = timer;
+export default timer;
