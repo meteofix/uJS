@@ -690,9 +690,9 @@ const user1 = (function () {
 // }
 // module.exports = myModule1;
 
-const myModule1 = require('./module');          // импортируем
-const myModuleInstance = new myModule1();
-myModuleInstance.hello();
+// const myModule1 = require('./module');          // импортируем
+//const myModuleInstance = new myModule1();
+//myModuleInstance.hello();
 
 // Любую модульную систему нужно собрать в один проект, например с помощью webpack
 // Gulp - планировщик задач.
@@ -719,23 +719,34 @@ myModuleInstance.hello();
 // };
 
 
-// == == export/import == ==
+// == == export/import (ES6) == ==
 
-export let one = 1;                                     // один вариант экспорта именованного синтаксиса
+// export let one = 1;                                     // один вариант экспорта именованного синтаксиса
 let two = 2;
-export {two};                                           // второй вариант экспорта именованного синтаксиса
+// export {two};                                           // второй вариант экспорта именованного синтаксиса
 
 // import {one, two} from './...'                       // для именованного синтаксиса фигурные скобки обязательны
 // import {one as first} from './...'                   // переименовать при импорте
 // import * as data from './...'
 // console.log(data.one)
 
-export default function sayHi() {}                      // экспорт по дефолту. может быть только один
+// export default function sayHi() {}                      // экспорт по дефолту. может быть только один
 // import sayHi from './...'                            // импорт по дефолту без фигурных скобок
 
 
+// === === ===  Обработка ошибок === === === === === === === === ===
 
+try {                                           // если код в try выполняется без ошибок, блок catch игнорируется
+    console.log('Normal')
+    console.log(a)
+} catch(e) {                                    // если в try произойдет любая ошибка, выполнится блок catch
+    console.log(e)                              // в блок приходит объект ошибки, с которым можно взаимодействовать
+    console.log(e.name)                         // название ошибки
+    console.log(e.message)                      // сообщение ошибки
+    console.log(e.stack)                        // стек скриптов, приведших к ошибки
+} finally {                                     // выполнится в конце, при любом исходе
 
+}
 
 
 
