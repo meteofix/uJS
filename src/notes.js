@@ -749,6 +749,48 @@ try {                                           // если код в try вып
 }
 
 
+// === === ===  Код для старых браузеров ES5. Babel, Core.js и полифиллы  === === === === === === === === ===
+
+// Babel - transplitter, переводящий код в старый формат. https://babeljs.io/docs/en/usage
+// Полифиллы - участки кода, которые эмулируют поведение современных стандартов
+
+// # npm install --save-dev @babel/core @babel/cli @babel/preset-env
+// # npm install --save @babel/polyfill
+// # npm install --save-dev babel-loader core-js
+
+// Рекомендуюется перенести список браузеров-таргетов в package.json
+//     "browserslist": [
+//         "> 1%"
+//     ],
+// Получить список браузеров можно на сайте https://browserl.ist (is down) или командой:
+// # npx browserslist "last 1 version, >1%"
+
+// Потом добавляем настройки Babel в Webpack.config.js
+// module: {
+//     rules: [
+//         {
+//             test: /\.m?js$/,                                 // с помощью регулярки находим файлы js
+//             exclude: /(node_modules|bower_components)/,      // папки, которые нужно исключить
+//             use: {
+//                 loader: 'babel-loader',                      // технология связывает бебел с вепаком. нужно установить
+//                 options: {
+//                     presets: [['@babel/preset-env', {        // выбор пресета
+//                         debug: true,
+//                         corejs: 3,                           // версия библиотеки core-js. нужно установить
+//                         useBuiltIns: "usage"                 // использовать лишь нужные полифилы, фича от core-js
+//                     }]]
+//                 }
+//             }
+//         }
+//     ]
+// }
+
+// Если вдруг полифил не установился и не работает, нужно установить его вручную.
+// Загуглить название, например "es6 promise", найти и установить пакет.
+// Потом добавить в начало файла:
+// require('es6-promise').polyfill();
+
+
 
 
 
