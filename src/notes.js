@@ -737,13 +737,13 @@ let two = 2;
 // === === ===  Обработка ошибок === === === === === === === === ===
 
 try {                                           // если код в try выполняется без ошибок, блок catch игнорируется
-    console.log('Normal')
-    console.log(a)
+    //console.log('Normal')
+    //console.log(a)
 } catch(e) {                                    // если в try произойдет любая ошибка, выполнится блок catch
-    console.log(e)                              // в блок приходит объект ошибки, с которым можно взаимодействовать
-    console.log(e.name)                         // название ошибки
-    console.log(e.message)                      // сообщение ошибки
-    console.log(e.stack)                        // стек скриптов, приведших к ошибки
+    //console.log(e)                              // в блок приходит объект ошибки, с которым можно взаимодействовать
+    //console.log(e.name)                         // название ошибки
+    //console.log(e.message)                      // сообщение ошибки
+    //console.log(e.stack)                        // стек скриптов, приведших к ошибки
 } finally {                                     // выполнится в конце, при любом исходе
 
 }
@@ -791,8 +791,143 @@ try {                                           // если код в try вып
 // require('es6-promise').polyfill();
 
 
+// === === ===  Библиотека jQuery  === === === === === === === === ===
+
+// # npm i jquery --save
+// import 'jquery'  или  import $ from 'jquery', если ошибка
+// или
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+// работа с библиотекой
+
+const buttons = $('button');                                             // получение элемента/элементов
+// console.log(buttons)
+$(document).ready(function () {                             // аналог window.addEventListener('DOMContentLoaded', () => {})
+    $('.list-item:first').hover(function (e) {              // выбираем первый элемент класса list-item и навешываем событие при наведении
+        $(this).toggleClass('active');
+    });
+
+    $('.list-item:eq(2)').on('click', function () {         // eq - фильтр, 2 - 3й элемент. on - аналог addEventListener
+        $('.image:even').fadeToggle('slow');                //even - четные, odd - нечетные, отсчет с нуля. анимация
+    });
+
+    $('.list-item:eq(4)').on('click', function () {
+        $('.image:odd').animate({                           // анимация вручную
+            opacity: 'toggle',
+            height: 'toggle'
+        }, 2000);
+    });
+})
 
 
+// === === ===   Функции-генераторы   === === === === === === === === ===
+
+function* generator() {                                 // создание функции-генератора, выдающей результат последовательно
+    yield 'S';
+    yield 'c';
+}
+const str2 = generator();
+// console.log(str2.next());                              // {value: 'S', done: false}
+// console.log(str2.next().value);                        // c
+// console.log(str2.next());                              // {value: undefined, done: true}
+
+function* count1(n) {                                  // цикл в функции-генераторе
+    for (let i = 0; i < n; i++) {
+        yield i;
+    }
+}
+const counter = count1(7)
+// console.log(counter.next().value);                     // 0
+// console.log(counter.next().value);                     // 1
+for (let k of count1(7)) {                             // способ перебрать все итерации функции-генератора
+    //console.log(k)
+}
+
+
+// === === ===   Анимации и способы их создания   === === === === === === === === ===
+
+// Самый простой и довольно гибкий способ - CSS3 анимации
+// Ограничения css3 - не умеет нормально анимировать canvas элементы, создавать сложную рваную нелинейную анимацию
+
+// 1 способ javascript анимаций - с помощью setInterval и setTimeout
+//   1 проблема - жестко задается анимация по кадрам, рассинхрон обновления, нагрузка
+//   2 проблема - много анимаций - нагрузка
+//   3 проблема - при переключении на другую вкладку анимации на предыдущей нагружают компьютер
+const box = document.querySelector('.box'),
+    firstAnimationStart = document.querySelector('#firstAnimationStart'),
+    resetButton = document.querySelector('#reset');
+let position = 0,
+    moveIntervalId;
+
+function firstAnimation()  {
+    if (position >= 300) {
+        clearInterval(moveIntervalId)
+    } else {
+        box.style.top = `${position + 1}px`
+        box.style.left = `${position + 1}px`
+        moveIntervalId = setTimeout(firstAnimation, 10)
+        position++;
+    }
+}
+firstAnimationStart.addEventListener('click',() => {
+    moveIntervalId = setTimeout(firstAnimation, 10)
+})
+resetButton.addEventListener('click', () => {
+    position = 0;
+    box.style.top = `${position}px`
+    box.style.left = `${position}px`
+})
+
+// 2 способ javascript анимаций - requestAnimationFrame
+//   анимация подстраивает анимацию под частоту обновления браузера
+const secondAnimationStart = document.querySelector('#secondAnimationStart');
+let animationFrameId;
+
+function secondAnimation()  {
+    if (position < 300) {
+        position++;
+        box.style.top = `${position}px`
+        box.style.left = `${position}px`
+        animationFrameId = requestAnimationFrame(secondAnimation);              // зацикливает анимацию внутри себя
+    }
+    if (position === 200) {
+        cancelAnimationFrame(animationFrameId);                                 // отменяет анимацию по id
+    }
+}
+secondAnimationStart.addEventListener('click',() => {
+    animationFrameId = requestAnimationFrame(secondAnimation);
+})
+
+
+// === === ===   Stack. Event loop. Web Apis. Подробная работа синхронных и асинхронных операций   === === === === ===
+
+// все колбеки происходят асинхронно!!!
+// http://latentflip.com/loupe/
+
+
+// === === ===   Использование готовых решений в проектах   === === === === ===
+
+// Совет: по возможности использовать плагины, не спользующие зависимости!!!
+
+// Слайдеры:
+
+// tiny-slider - написан на нативном js и не использует зависимости, работает быстрее
+// owl-carousel - подтягивает jquery
+// slick - подтягивает jquery
+// galleria
+// fotorama
+// glide js
+
+// import { tns } from "./node_modules/tiny-slider/src/tiny-slider"
+//
+// let slider = tns({
+//     container: '.my-slider',
+//     items: 3,
+//     slideBy: 'page',
+//     autoplay: true
+// });
+
+// https://nisnom.com/
 
 
 

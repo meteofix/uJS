@@ -69,22 +69,22 @@ const personalMovieDB = {
 
 const wrapper = document.querySelector('.wrapper');
 const box = document.createElement('div')
-let position = 0;
 wrapper.style = 'position: relative; border: 1px solid red; width: 400px; height: 400px;'
 wrapper.append(box)
 box.style = 'position: absolute; background-color: blue; width: 100px; height: 100px;'
 
 const move = () => {
+    let position = 0;
     if (position == 300) {
-        clearInterval(moveIntevalId)
+        clearInterval(moveIntervalId)
     } else {
         box.style.top = `${position + 1}px`
         box.style.left = `${position + 1}px`
-        moveIntevalId = setTimeout(move, 10)
+        moveIntervalId = setTimeout(move, 10)
         position++;
     }
 }
-let moveIntevalId = setTimeout(move, 10)
+let moveIntervalId = setTimeout(move, 10)
 
 // === === === intervalAnimation end === === ===
 
