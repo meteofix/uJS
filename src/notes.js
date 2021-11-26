@@ -945,6 +945,18 @@ secondAnimationStart.addEventListener('click',() => {
 
 // # json-server project_3/db.json
 
+// Запуск сервера вместе с реактом
+
+// # npm install -g concurrently
+
+// Затем измените скрипт в package.json:
+
+// "server":"react-scripts start",
+// "json_server":"json-server mock/db.json --port 3003",
+// "start": "concurrently \"npm run json_server\" \"npm run server\" ",
+
+
+
 
 // Shift+F5 - сброс кеша
 
